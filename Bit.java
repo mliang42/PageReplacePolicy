@@ -1,25 +1,28 @@
-import invalidArgumentException;
+package PageReplace;
+import java.io.*;
 
-public class Bit throws invalidArgumentException {
+
+public class Bit {
     private static int value;
-    public Bit(int value) {
+    public Bit(int value) throws IllegalArgumentException {
         if (value < 0 || value > 1) {
-            throw new invalidArgumentException("Cannot assign " + value + " to a bit"); 
+            throw new IllegalArgumentException("Cannot assign " + value + " to a bit"); 
         } else {
             this.value = value;
         }
     }
 
     public int get() {
-        return value;
+        return this.value;
     }
 
-    public static void main(string[] args) {
+    public static void main(String[] args) {
         Bit zero = new Bit(0);
-        Bit one = new Bit(1);
         System.out.println(zero.get());
+        Bit one = new Bit(1);
         System.out.println(one.get());
-        
+        Bit oh_no = new Bit(100000);
+        System.out.println(oh_no.get());
     }
 
 }
