@@ -1,4 +1,5 @@
 package PageReplace;
+
 import java.io.*;
 
 
@@ -21,8 +22,14 @@ public class Bit {
         System.out.println(zero.get());
         Bit one = new Bit(1);
         System.out.println(one.get());
+        System.out.println(one.toString());
         Bit oh_no = new Bit(100000);
         System.out.println(oh_no.get());
+    }
+
+    @Override
+    public String toString() {
+        return "(" + this.value + ")";
     }
 
 }
