@@ -1,1 +1,1 @@
-This is a terrible perl script that I am writing for fun.
+Skeleton for page replacement policy simulator
