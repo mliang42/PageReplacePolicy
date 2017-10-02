@@ -45,5 +45,23 @@ public class Buffer {
 
     }
 
+    @Override
+    public String toString() {
+        // [1] means unreferenced. [1*] means referenced
+        if (this.ref_bit.get() == 0) {
+            return "[" + this.val + "]";
+        } else {
+            return "[" + this.val + "*]";
+        }
+    }
+
+    //@Override
+    public int compareTo(Buffer b) {
+        // Useful for sorting an array of buffers?
+        // sort by value only for now. 
+        // will have a runtime exception if o is not a buffer. TODO
+        return this.get_val().compareTo(b.get_val());
+    }
+
     
 }
