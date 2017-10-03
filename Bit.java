@@ -11,10 +11,19 @@ public class Bit {
         } else {
             this.value = value;
         }
+        
     }
 
     public int get() {
         return this.value;
+    }
+
+    public void set(int i) {
+        if (i < 0 || i > 1) {
+            throw new IllegalArgumentException("Cannot assign " + i + " to a bit"); 
+        } else {
+            this.value = i;
+        }
     }
 
     public static void main(String[] args) {
