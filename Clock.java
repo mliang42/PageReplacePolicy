@@ -56,6 +56,7 @@ public class Clock {
             }
             pointer = (pointer + 1) % (lst.size() - 1); 
         }
+        b.set_ref(1);
         lst.set(pointer, b);
         pointer = (pointer + 1) % (lst.size() - 1); 
         return;
@@ -68,25 +69,29 @@ public class Clock {
         String temp = "";
         String point = "";
         for(int i = 0; i < lst.size(); i++) {
+            int addition = 2;
             if (lst.get(i).get_ref() == 0) {
                 temp += "[" + lst.get(i).get_val() + "]";
-                if (pointer == i) {
-                    point += " | ";    
-                } else {
-                    point += "   ";
-                }
                 
             } else {
                 temp += "[" + lst.get(i).get_val() + "*" +"]";
-                if (pointer == i) {
-                    point += " |  ";
+                addition++;
+            }
+
+            int length = (int) Math.log10(lst.get(i).get_val()) + 1;
+            System.out.println((int) ((length+1) / 2));
+            for(int j = 0; j < length+addition; j++) {
+                if (i == pointer && j == (int) ((length+1) / 2)) {
+                    point += "|";
                 } else {
-                    point += "    ";
+                    point += " ";
                 }
             }
         }
         return temp + "\n" + point;
     }
+
+
 
     public static void main(String[] args) {
         ArrayList<ClockBuffer> lstofbuffers=  new ArrayList<>();
@@ -99,7 +104,7 @@ public class Clock {
         clk.request(new ClockBuffer(9));
         System.out.println(clk.toString());
 
-        clk.request(new ClockBuffer(100));
+        clk.request(new ClockBuffer(999));
         System.out.println(clk.toString());
 
 
