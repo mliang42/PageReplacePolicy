@@ -36,7 +36,9 @@ public class Clock {
     public int request(ClockBuffer b) { //put
         int index = getIndex(b.get_val());
         if (index != -1) { //cache hit, set ref bit and done
-            lst.get(index).set_bit(new Bit(1));
+            //lst.get(index).set_bit(new Bit(1));
+            lst.get(index).set_ref(1);
+
             return 1; //cache hit
         } else {
             clockIter(b);
@@ -47,14 +49,14 @@ public class Clock {
     public void clockIter(ClockBuffer b) {
         for(int i = 0; i < lst.size(); i++) {
             ClockBuffer curr = lst.get(pointer);
-            if (curr.get_bit().get() == 1) {
-                curr.get_bit().set(0);
+            if (curr.get_ref() == 1) {
+                curr.set_ref(0);
             } else {
                 break;
             }
             pointer = (pointer + 1) % (lst.size() - 1); 
         }
-        lst.add(pointer, b);
+        lst.set(pointer, b);
         pointer = (pointer + 1) % (lst.size() - 1); 
         return;
 
@@ -62,10 +64,11 @@ public class Clock {
 
     @Override
     public String toString() {
+        //TODO must deal with variable length inputs and pointer
         String temp = "";
         String point = "";
         for(int i = 0; i < lst.size(); i++) {
-            if (lst.get(i).get_bit().get() == 0) {
+            if (lst.get(i).get_ref() == 0) {
                 temp += "[" + lst.get(i).get_val() + "]";
                 if (pointer == i) {
                     point += " | ";    
@@ -93,12 +96,12 @@ public class Clock {
         Clock clk = new Clock(lstofbuffers);
         System.out.println(clk.toString());
 
-        
-
-        /*
-        int rq = clk.request(new ClockBuffer(9));
+        clk.request(new ClockBuffer(9));
         System.out.println(clk.toString());
-        System.out.println(rq);*/
+
+        clk.request(new ClockBuffer(100));
+        System.out.println(clk.toString());
+
 
     }
 
