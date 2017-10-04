@@ -54,11 +54,13 @@ public class Clock {
             } else {
                 break;
             }
-            pointer = (pointer + 1) % (lst.size() - 1); 
+            System.out.println(pointer);
+            pointer = (pointer + 1) % (lst.size()); 
+
         }
         b.set_ref(1);
         lst.set(pointer, b);
-        pointer = (pointer + 1) % (lst.size() - 1); 
+        pointer = (pointer + 1) % (lst.size()); 
         return;
 
     }
@@ -78,8 +80,8 @@ public class Clock {
                 addition++;
             }
 
-            int length = (int) Math.log10(lst.get(i).get_val()) + 1;
-            System.out.println((int) ((length+1) / 2));
+            int length = String.valueOf(lst.get(i).get_val()).length();
+            //System.out.println((int) ((length+1) / 2));
             for(int j = 0; j < length+addition; j++) {
                 if (i == pointer && j == (int) ((length+1) / 2)) {
                     point += "|";
@@ -107,6 +109,10 @@ public class Clock {
         clk.request(new ClockBuffer(999));
         System.out.println(clk.toString());
 
+        for(int i = 0; i < 15; i++) {
+            clk.request(new ClockBuffer(i));
+            System.out.println(clk.toString());
+        } //buggy output
 
     }
 
