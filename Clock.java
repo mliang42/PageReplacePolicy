@@ -35,10 +35,11 @@ public class Clock {
 
     public int request(ClockBuffer b) { //put
         int index = getIndex(b.get_val());
+        totalhits++;
         if (index != -1) { //cache hit, set ref bit and done
             //lst.get(index).set_bit(new Bit(1));
             lst.get(index).set_ref(1);
-
+            pagehits++;
             return 1; //cache hit
         } else {
             clockIter(b);
@@ -93,6 +94,9 @@ public class Clock {
         return temp + "\n" + point;
     }
 
+    public String info() {
+        return "PageHits: " + pagehits + " , TotalHits: " + totalhits;
+    }
 
 
     public static void main(String[] args) {
@@ -109,10 +113,20 @@ public class Clock {
         clk.request(new ClockBuffer(999));
         System.out.println(clk.toString());
 
-        for(int i = 0; i < 15; i++) {
+        for(int i = 0; i < 10; i++) {
             clk.request(new ClockBuffer(i));
             System.out.println(clk.toString());
-        } //buggy output
+        } 
+
+        ArrayList<ClockBuffer> lst = new ArrayList<>();
+        clk = new Clock(lst);
+
+        for(int i = 1; i < 6; i++) {
+            clk.request(new ClockBuffer(i));
+            System.out.println(clk.toString());
+            System.out.println(clk.info());
+        } 
+
 
     }
 

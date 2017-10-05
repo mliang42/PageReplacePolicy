@@ -2,8 +2,8 @@ package PageReplace;
 import java.util.*;
 
 public class ClockBuffer extends Buffer {
-    public Integer val;
-    public int ref_bit;
+    private Integer val;
+    private int ref_bit;
 
     public ClockBuffer(Integer val, int bit) {
         this.val = val;
