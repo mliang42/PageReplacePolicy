@@ -3,19 +3,16 @@ import java.util.*;
 
 //todo make this a general buffer class, other buffer classes extend it.
 
-public class Buffer {
-    private Integer val;
+public class Buffer<T> {
+    private T val;
 
-    public Buffer(Integer val) {
+    public Buffer(T val) {
         this.val = val;
         //this.ref_bit = referenced_bit;
     }
 
-    public Buffer() {
-        this.val = 0;
-    }
 
-    public Integer get_val() {
+    public T get_val() {
         return this.val;
     }
 
@@ -44,13 +41,7 @@ public class Buffer {
         return "[" + this.val + "]";
     }
 
-    //@Override
-    public int compareTo(Buffer b) {
-        // Useful for sorting an array of buffers?
-        // sort by value only for now. 
-        // will have a runtime exception if o is not a buffer. TODO
-        return this.get_val().compareTo(b.get_val());
-    }
+
 
 
     

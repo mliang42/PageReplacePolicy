@@ -1,26 +1,21 @@
 package PageReplace;
 import java.util.*;
 
-public class ClockBuffer extends Buffer {
-    private Integer val;
+public class ClockBuffer<T>{
+    private T val;
     private int ref_bit;
 
-    public ClockBuffer(Integer val, int bit) {
+    public ClockBuffer(T val, int bit) {
         this.val = val;
         this.ref_bit = bit;
     }
 
-    public ClockBuffer(Integer val) {
+    public ClockBuffer(T val) {
         this.val = val;
         this.ref_bit = 0;
     }
 
-    public ClockBuffer() {
-        this.val = 0;
-        this.ref_bit = 0;
-    }
-
-    public Integer get_val() {
+    public T get_val() {
         return this.val;
     }
 
@@ -32,9 +27,10 @@ public class ClockBuffer extends Buffer {
         this.ref_bit = i;
     }
 
+    /*
     public int compareTo(ClockBuffer b) {
         return this.get_val().compareTo(b.get_val());
-    }
+    }*/
 
     public static void main(String[] args) {
 

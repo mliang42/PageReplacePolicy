@@ -1,7 +1,7 @@
 package PageReplace;
 import java.util.*;
 
-public class Clock {
+public class Clock<T> {
     private List<ClockBuffer> lst;
     private int pagehits; 
     private int totalhits; 
@@ -23,9 +23,9 @@ public class Clock {
         this.pointer = 0;
     }
 
-    public int getIndex(Integer pagenum) {
+    public int getIndex(T val) {
         for(int i = 0; i < lst.size(); i++) {
-            if (lst.get(i).get_val() == pagenum) {
+            if (lst.get(i).get_val() == val) {
                 return i;
             }
         }
@@ -34,7 +34,7 @@ public class Clock {
  
 
     public int request(ClockBuffer b) { //put
-        int index = getIndex(b.get_val());
+        int index = getIndex((T) b.get_val()); //may need to reconsider generics
         totalhits++;
         if (index != -1) { //cache hit, set ref bit and done
             //lst.get(index).set_bit(new Bit(1));
@@ -119,13 +119,20 @@ public class Clock {
         } 
 
         ArrayList<ClockBuffer> lst = new ArrayList<>();
+        lst.add(new ClockBuffer("A"));
+        lst.add(new ClockBuffer("B"));
+        lst.add(new ClockBuffer("Q"));
+        lst.add(new ClockBuffer("R"));
         clk = new Clock(lst);
 
-        for(int i = 1; i < 6; i++) {
-            clk.request(new ClockBuffer(i));
-            System.out.println(clk.toString());
-            System.out.println(clk.info());
-        } 
+        clk.request(new ClockBuffer("A"));
+        System.out.println(clk.toString());
+        clk.request(new ClockBuffer("B"));
+        System.out.println(clk.toString());
+        clk.request(new ClockBuffer("D"));
+        System.out.println(clk.toString());
+        clk.request(new ClockBuffer("Z"));
+        System.out.println(clk.toString());
 
 
     }
