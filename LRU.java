@@ -1,6 +1,8 @@
 package PageReplace;
 import java.util.*;
 import static org.junit.Assert.*;
+import java.util.concurrent.ThreadLocalRandom;
+
 
 public class LRU {
     private List<Buffer> lst;
@@ -8,16 +10,27 @@ public class LRU {
     private int pagehits; 
     private int totalhits; 
 
-    public LRU(List<Buffer> lst, List<Integer> relativeList) {
-        assertEquals(lst.size(), relativeList.size());
+    public LRU(List<Buffer> lst) {
         this.lst = lst;
-        this.relativelst = relativeList;
+        this.relativelst = new ArrayList<Integer>();
         this.pagehits = 0;
         this.totalhits = 0;
-        for(int i = 0; i < lst.size(); i++) { //cache is initially empty
-            if (lst.get(i).get_val() == null) {
-                relativelst.set(i, -1);
-            }
+        for(int i = 0; i < lst.size(); i++) { //initialize the relativelst in some arbitrary order
+            relativelst.add(i, i+1);
+        } 
+    }
+
+    public LRU(Integer size) {
+        this.lst = new ArrayList<Buffer>();
+        this.relativelst = new ArrayList<Integer>();
+        for(int i = 0; i < 10; i++) {
+            Buffer temp = new Buffer(null);
+            lst.add(temp);
+        }
+        this.pagehits = 0;
+        this.totalhits = 0;
+        for(int i = 0; i < lst.size(); i++) { //initialize the relativelst in some arbitrary order
+            relativelst.add(i, i+1);
         } 
     }
 
@@ -27,22 +40,25 @@ public class LRU {
         if (contains == -1) {
             index = findLRUIndex(buf);
             lst.set(index, buf);
+
         } else {
             pagehits++;
             index = contains;
+
         }
-        
+        int previous = relativelst.get(index);
         relativelst.set(index, 1);
         for(int i = 0; i < lst.size(); i++) {
-            if (i != index && relativelst.get(i) != -1) {
-                relativelst.set(i, relativelst.get(i) + 1);
+            if (relativelst.get(i) <= previous && i != index) {
+                relativelst.set(i, relativelst.get(i)  + 1 );
             }
         }
+        
         totalhits++;
 
     }   
 
-    public int checkIfContains(Buffer buf) {
+    public int checkIfContains(Buffer buf) { //returns the index of i in the lst if it contains the buffer
         for(int i = 0; i < lst.size(); i++) {
             if (lst.get(i).equals(buf)) { //returns false if you try to match null
                 return i; 
@@ -51,7 +67,7 @@ public class LRU {
         return -1;
     }
 
-    public int findLRUIndex(Buffer buf) {
+    public int findLRUIndex(Buffer buf) { //finds the index i in relativelst which is the least frequentially used
         for(int i = 0; i < relativelst.size(); i++) {
             if (relativelst.get(i) == relativelst.size()) {
                 return i;
@@ -80,13 +96,12 @@ public class LRU {
 
     public static void main(String[] args) {
         List<Buffer> list_of_buf = new ArrayList<>();
-        List<Integer> rel = new ArrayList<>();
         for(int i = 0; i < 10; i++) {
             Buffer temp = new Buffer(null);
             list_of_buf.add(temp);
-            rel.add(0);
         }
-        LRU test = new LRU(list_of_buf, rel);
+        //LRU test = new LRU(list_of_buf);
+        LRU test = new LRU(10);
         System.out.println(test.toString());
         
         for(int i = 0; i < 10; i++) {
@@ -98,8 +113,23 @@ public class LRU {
         test.insert(new Buffer(100));
         System.out.println(test.toString());
 
-        test.insert(new Buffer("jebaiiiited"));
+        test.insert(new Buffer("oh no, a string!"));
         System.out.println(test.toString());
+
+        test.insert(new Buffer(81));//cache hit
+        System.out.println(test.toString()); 
+        
+        for(int i = 0; i < 1000; i++) {
+            test.insert(new Buffer(ThreadLocalRandom.current().nextInt(0, 1000)));
+            System.out.println(test.toString());
+        } 
+
+        test.insert(new Buffer(null)); //null can be inserted but does not count as a cache hit.
+        System.out.println(test.toString());
+
+
+        
+        
 
     }
 
