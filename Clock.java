@@ -16,6 +16,15 @@ public class Clock<T> {
         this.pointer = 0;
 
     }*/
+    public Clock(Integer size) { //TODO: make clock handle empty page input
+        this.lst = new ArrayList<ClockBuffer>();
+        for(int i = 0; i < size; i++) {
+            this.lst.add(new ClockBuffer(null));
+        }
+        this.pagehits = 0;
+        this.totalhits = 0;
+        this.pointer = 0;
+    }
 
     public Clock(ArrayList<ClockBuffer> buffers) {
         this.lst = buffers;

@@ -95,7 +95,7 @@ public class LRU {
             times += "[" + relativelst.get(i) + "]";
         }
 
-        return buffs + "\n" + times + "\n";
+        return buffs + "\n" + times + "\n" + "pagehits:" + pagehits + ", totalhits:" + totalhits + "\n";
 
     }
 
