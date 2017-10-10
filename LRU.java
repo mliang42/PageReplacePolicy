@@ -1,6 +1,5 @@
 package PageReplace;
 import java.util.*;
-import static org.junit.Assert.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -69,14 +68,18 @@ public class LRU {
 
     public int findLRUIndex(Buffer buf) { //finds the index i in relativelst which is the least frequentially used
         for(int i = 0; i < relativelst.size(); i++) {
-            if (relativelst.get(i) == relativelst.size()) {
-                return i;
-            }
             if (lst.get(i).get_val() == null) {
                 return i;
             }
         }
-        return -1;//should never happen 
+        //why do I have two for loops looping over the same thing? 
+        //I need to check if there is an empty space before replacing
+        for(int i = 0; i < relativelst.size(); i++) { 
+            if (relativelst.get(i) == relativelst.size()) {
+                return i;
+            } 
+        }
+        return -1;
 
     }
 

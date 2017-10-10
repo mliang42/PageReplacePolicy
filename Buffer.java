@@ -14,7 +14,7 @@ public class Buffer<T> {
 
 
     public boolean equals(Buffer b) {
-        if (this.get_val() == null || b.get_val() == null) {
+        if (this.get_val() == null || b.get_val() == null) { //a buffer with a value of null means no entry
             return false;
         } else {
             return this.get_val().equals(b.get_val());    
