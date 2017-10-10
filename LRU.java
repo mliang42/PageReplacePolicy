@@ -4,10 +4,10 @@ import java.util.concurrent.ThreadLocalRandom;
 
 
 public class LRU {
-    private List<Buffer> lst;
-    private List<Integer> relativelst;
-    private int pagehits; 
-    private int totalhits; 
+    public List<Buffer> lst;
+    public List<Integer> relativelst;
+    public int pagehits; 
+    public int totalhits; 
 
     public LRU(List<Buffer> lst) {
         this.lst = lst;
@@ -32,6 +32,8 @@ public class LRU {
             relativelst.add(i, i+1);
         } 
     }
+
+
 
     public void insert(Buffer buf) {
         int contains = checkIfContains(buf);
