@@ -1,1 +1,1 @@
-Skeleton for page replacement policy simulator
+A series of direct-mapped cache replacement policies just for fun.
