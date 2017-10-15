@@ -16,7 +16,10 @@ public class Clock<T> {
         this.pointer = 0;
 
     }*/
-    public Clock(Integer size) { //TODO: make clock handle empty page input
+    public Clock(Integer size) throws IllegalArgumentException { 
+        if (size <= 0) {
+            throw new IllegalArgumentException("Must initialize cache with positive number of entries.");
+        }
         this.lst = new ArrayList<ClockBuffer>();
         for(int i = 0; i < size; i++) {
             this.lst.add(new ClockBuffer(null));

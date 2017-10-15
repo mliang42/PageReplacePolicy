@@ -19,7 +19,10 @@ public class LRU {
         } 
     }
 
-    public LRU(Integer size) {
+    public LRU(Integer size) throws IllegalArgumentException {
+        if (size <= 0) {
+            throw new IllegalArgumentException("Must initialize cache with positive number of entries.");
+        }
         this.lst = new ArrayList<Buffer>();
         this.relativelst = new ArrayList<Integer>();
         for(int i = 0; i < size; i++) {
