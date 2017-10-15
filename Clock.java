@@ -3,7 +3,7 @@ import java.util.*;
 
 
 public class Clock<T> {
-    private List<ClockBuffer> lst;
+    public List<ClockBuffer> lst;
     private int pagehits; 
     private int totalhits; 
     private int pointer;
@@ -116,6 +116,9 @@ public class Clock<T> {
     }
 
     public double hitrate() {
+        if (totalhits == 0) {
+            return 0;
+        }
         return (double) pagehits / totalhits; 
     }
 

@@ -22,7 +22,7 @@ public class LRU {
     public LRU(Integer size) {
         this.lst = new ArrayList<Buffer>();
         this.relativelst = new ArrayList<Integer>();
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < size; i++) {
             Buffer temp = new Buffer(null);
             lst.add(temp);
         }
@@ -41,7 +41,7 @@ public class LRU {
         if (contains == -1) {
             index = findLRUIndex(buf);
             lst.set(index, buf);
-            
+
         } else {
             pagehits++;
             index = contains;
@@ -75,7 +75,7 @@ public class LRU {
             }
         }
         //why do I have two for loops looping over the same thing? 
-        //I need to check if there is an empty space before replacing
+        //I need to check if there is an empty space before replacing a value
         for(int i = 0; i < relativelst.size(); i++) { 
             if (relativelst.get(i) == relativelst.size()) {
                 return i;
