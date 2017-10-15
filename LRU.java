@@ -41,7 +41,7 @@ public class LRU {
         if (contains == -1) {
             index = findLRUIndex(buf);
             lst.set(index, buf);
-
+            
         } else {
             pagehits++;
             index = contains;
@@ -114,30 +114,30 @@ public class LRU {
         }
         //LRU test = new LRU(list_of_buf);
         LRU test = new LRU(10);
-        System.out.println(test.toString());
+        System.out.println(test);
         
         for(int i = 0; i < 10; i++) {
             test.insert(new Buffer(i*i));
-            System.out.println(test.toString());
+            System.out.println(test);
         }
 
         //now the fun begins
         test.insert(new Buffer(100));
-        System.out.println(test.toString());
+        System.out.println(test);
 
         test.insert(new Buffer("oh no, a string!"));
-        System.out.println(test.toString());
+        System.out.println(test);
 
         test.insert(new Buffer(81));//cache hit
-        System.out.println(test.toString()); 
+        System.out.println(test); 
         
         for(int i = 0; i < 1000; i++) {
             test.insert(new Buffer(ThreadLocalRandom.current().nextInt(0, 1000)));
-            System.out.println(test.toString());
+            System.out.println(test);
         } 
 
         test.insert(new Buffer(null)); //null can be inserted but does not count as a cache hit.
-        System.out.println(test.toString());
+        System.out.println(test);
 
 
         

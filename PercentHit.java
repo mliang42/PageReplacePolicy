@@ -10,7 +10,7 @@ public class PercentHit {
 		Clock clk = new Clock(100);
 
 		for(int i = 0; i < 10000; i++) {
-			Integer rand = ThreadLocalRandom.current().nextInt(0, 100);
+			Integer rand = ThreadLocalRandom.current().nextInt(0, 100); 
             //System.out.println(rand);
             lru_cache.insert(new Buffer(rand));
             //System.out.println(lru_cache);

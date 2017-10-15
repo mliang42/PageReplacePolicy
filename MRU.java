@@ -55,21 +55,21 @@ public class MRU<T> extends LRU {
 		MRU cache = new MRU(10);
 		for(int i = 0; i < 10; i++) {
 			cache.insert(new Buffer(i));
-			System.out.println(cache.toString());
+			System.out.println(cache);
 		}
 
 		cache.insert(new Buffer("haha!"));
-		System.out.println(cache.toString());
+		System.out.println(cache);
 
 		cache.insert(new Buffer(5));
-		System.out.println(cache.toString());
+		System.out.println(cache);
 
 		for(int i = 0; i < 1000; i++) {
             cache.insert(new Buffer(ThreadLocalRandom.current().nextInt(0, 1000)));
-            System.out.println(cache.toString());
+            System.out.println(cache);
         } 
 
         cache.insert(new Buffer(null)); //null can be inserted but does not count as a cache hit. Inserting null essentially is the same thing as freeing a buffer
-        System.out.println(cache.toString());
+        System.out.println(cache);
 	}
 }
