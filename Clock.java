@@ -35,6 +35,11 @@ public class Clock<T> {
 
     public int getIndex(T val) {
         for(int i = 0; i < lst.size(); i++) {
+            if (lst.get(i).get_val() == null) {
+                return i; //return null index's first
+            }
+        }
+        for(int i = 0; i < lst.size(); i++) {
             if (lst.get(i).get_val() == val) {
                 return i;
             }
@@ -46,11 +51,17 @@ public class Clock<T> {
     public int request(ClockBuffer b) { //put
         int index = getIndex((T) b.get_val()); //may need to reconsider generics
         totalhits++;
-        if (index != -1) { //cache hit, set ref bit and done
+        if (index != -1 && index < lst.size() && lst.get(index).get_val() != null) { //cache hit, set ref bit and done
             //lst.get(index).set_bit(new Bit(1));
             lst.get(index).set_ref(1);
             pagehits++;
             return 1; //cache hit
+        } else if (index != -1 && index < lst.size() && lst.get(index).get_val() == null) {
+            
+            lst.set(index, b);
+            lst.get(index).set_ref(1);
+            pointer = index; 
+            return 0; 
         } else {
             clockIter(b);
             return 0; //load from disk
@@ -65,7 +76,7 @@ public class Clock<T> {
             } else {
                 break;
             }
-            System.out.println(pointer);
+            //System.out.println(pointer);
             pointer = (pointer + 1) % (lst.size()); 
 
         }
@@ -110,6 +121,21 @@ public class Clock<T> {
 
 
     public static void main(String[] args) {
+        Clock clk = new Clock(10); 
+        System.out.println(clk.toString());
+        
+        clk.request(new ClockBuffer("zawarudo"));
+        System.out.println(clk.toString());
+
+        clk.request(new ClockBuffer("ok"));
+        System.out.println(clk.toString());
+
+        for(int i = 0; i < 10; i++) {
+            clk.request(new ClockBuffer(i));
+            System.out.println(clk.toString());
+        } 
+
+        /*
         ArrayList<ClockBuffer> lstofbuffers=  new ArrayList<>();
         for(int i = 0; i < 10; i++) {
             lstofbuffers.add(new ClockBuffer(i));
@@ -142,7 +168,7 @@ public class Clock<T> {
         clk.request(new ClockBuffer("D"));
         System.out.println(clk.toString());
         clk.request(new ClockBuffer("Z"));
-        System.out.println(clk.toString());
+        System.out.println(clk.toString());*/
 
 
     }
