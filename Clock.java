@@ -35,20 +35,20 @@ public class Clock<T> {
 
     public int getIndex(T val) {
         for(int i = 0; i < lst.size(); i++) {
-            if (lst.get(i).get_val() == null) {
-                return i; //return null index's first
+            if (lst.get(i).get_val() == val) {
+                return i; //return index if it contains it
             }
         }
         for(int i = 0; i < lst.size(); i++) {
-            if (lst.get(i).get_val() == val) {
-                return i;
+            if (lst.get(i).get_val() == null) {
+                return i; //return index if there are empty indices
             }
         }
-        return -1;
+        return -1; //else -1 to signify no space 
     }
  
 
-    public int request(ClockBuffer b) { //put
+    public int request(ClockBuffer b) { //insert
         int index = getIndex((T) b.get_val()); //may need to reconsider generics
         totalhits++;
         if (index != -1 && index < lst.size() && lst.get(index).get_val() != null) { //cache hit, set ref bit and done
@@ -115,24 +115,24 @@ public class Clock<T> {
         return temp + "\n" + point;
     }
 
-    public String info() {
-        return "PageHits: " + pagehits + " , TotalHits: " + totalhits;
+    public double hitrate() {
+        return (double) pagehits / totalhits; 
     }
 
 
     public static void main(String[] args) {
         Clock clk = new Clock(10); 
-        System.out.println(clk.toString());
+        System.out.println(clk);
         
         clk.request(new ClockBuffer("zawarudo"));
-        System.out.println(clk.toString());
+        System.out.println(clk);
 
         clk.request(new ClockBuffer("ok"));
-        System.out.println(clk.toString());
+        System.out.println(clk);
 
         for(int i = 0; i < 10; i++) {
             clk.request(new ClockBuffer(i));
-            System.out.println(clk.toString());
+            System.out.println(clk);
         } 
 
         /*
@@ -141,17 +141,17 @@ public class Clock<T> {
             lstofbuffers.add(new ClockBuffer(i));
         }
         Clock clk = new Clock(lstofbuffers);
-        System.out.println(clk.toString());
+        System.out.println(clk);
 
         clk.request(new ClockBuffer(9));
-        System.out.println(clk.toString());
+        System.out.println(clk);
 
         clk.request(new ClockBuffer(999));
-        System.out.println(clk.toString());
+        System.out.println(clk);
 
         for(int i = 0; i < 10; i++) {
             clk.request(new ClockBuffer(i));
-            System.out.println(clk.toString());
+            System.out.println(clk);
         } 
 
         ArrayList<ClockBuffer> lst = new ArrayList<>();
@@ -162,13 +162,13 @@ public class Clock<T> {
         clk = new Clock(lst);
 
         clk.request(new ClockBuffer("A"));
-        System.out.println(clk.toString());
+        System.out.println(clk);
         clk.request(new ClockBuffer("B"));
-        System.out.println(clk.toString());
+        System.out.println(clk);
         clk.request(new ClockBuffer("D"));
-        System.out.println(clk.toString());
+        System.out.println(clk);
         clk.request(new ClockBuffer("Z"));
-        System.out.println(clk.toString());*/
+        System.out.println(clk);*/
 
 
     }

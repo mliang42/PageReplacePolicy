@@ -69,7 +69,7 @@ public class MRU<T> extends LRU {
             System.out.println(cache.toString());
         } 
 
-        cache.insert(new Buffer(null)); //null can be inserted but does not count as a cache hit.
+        cache.insert(new Buffer(null)); //null can be inserted but does not count as a cache hit. Inserting null essentially is the same thing as freeing a buffer
         System.out.println(cache.toString());
 	}
 }

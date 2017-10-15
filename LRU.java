@@ -85,6 +85,13 @@ public class LRU {
 
     }
 
+    public double hitrate() {
+        if (totalhits == 0) {
+            return 0;
+        }
+        return (double) pagehits / totalhits;
+    }
+
 
     @Override
     public String toString() {
