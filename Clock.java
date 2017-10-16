@@ -1,5 +1,7 @@
 package PageReplace;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
+
 
 
 public class Clock<T> {
@@ -140,10 +142,17 @@ public class Clock<T> {
         clk.request(new ClockBuffer("ok"));
         System.out.println(clk);
 
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < 20; i++) {
             clk.request(new ClockBuffer(i));
             System.out.println(clk);
         } 
+
+        clk = new Clock(10);
+        for(int i = 0; i < 1000; i++) {
+            clk.request(new ClockBuffer(ThreadLocalRandom.current().nextInt(0, 1000)));
+            System.out.println(clk);
+        }
+        System.out.println(clk.hitrate());
 
         /*
         ArrayList<ClockBuffer> lstofbuffers=  new ArrayList<>();
