@@ -62,7 +62,6 @@ public class Clock<T> {
             pagehits++;
             return 1; //cache hit
         } else if (index != -1 && index < lst.size() && lst.get(index).get_val() == null) {
-            
             lst.set(index, b);
             lst.get(index).set_ref(1);
             pointer = index; 
@@ -124,8 +123,9 @@ public class Clock<T> {
         if (totalhits == 0) {
             return 0;
         }
-        return (double) pagehits / totalhits; 
+        return (double) pagehits / totalhits;
     }
+
 
     public int size() {
         return lst.size();

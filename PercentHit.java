@@ -5,7 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class PercentHit<T> {
     private LRU lru_cache;
     private MRU mru_cache;
-    private Clock clk;
+    public Clock clk;
     private RandomR random;
     private LFU leastf;
     public PercentHit(Integer size) throws IllegalArgumentException{
@@ -51,6 +51,17 @@ public class PercentHit<T> {
             }//MRU  hits 1000 out of 3000, therefore 33%
         }
         System.out.println(flooding.hitrate());
+
+        System.out.println("Tiny");
+        PercentHit tiny = new PercentHit(10);
+        for(int i = 0; i < 50; i++) {
+            tiny.insert(ThreadLocalRandom.current().nextInt(0, 1000));
+            System.out.println(tiny.clk);
+            System.out.println(tiny.hitrate());
+
+        }
+        
+        System.out.println(tiny.hitrate());
 
       
 	}
