@@ -46,7 +46,7 @@ public class LRU { //least recently used
         int contains = checkIfContains(buf);
         int index;
         if (contains == -1) {
-            index = findLRUIndex(buf);
+            index = findLRUIndex();
             lst.set(index, buf);
 
         } else {
@@ -75,7 +75,7 @@ public class LRU { //least recently used
         return -1;
     }
 
-    public int findLRUIndex(Buffer buf) { //finds the index i in relativelst which is the least recently used
+    public int findLRUIndex() { //finds the index i in relativelst which is the least recently used
         for(int i = 0; i < relativelst.size(); i++) {
             if (lst.get(i).get_val() == null) {
                 return i;
@@ -88,8 +88,28 @@ public class LRU { //least recently used
                 return i;
             } 
         }
-        return -1;
+        return -1; //essentially unreachable unless something broke
 
+    }
+
+    //used for ARC
+    public Buffer reduce() throws IllegalArgumentException { 
+        //reduces size of cache by 1, drops least recently used element (or null element) and returns the buffer.
+        int index = findLRUIndex();
+        if (index == -1) {
+            throw new IllegalArgumentException("LRU indices are broken.");
+        } 
+        Buffer least = lst.get(index); //could be null
+        lst.remove(index); //deletes the buffer and its corresponding relative index. 
+        relativelst.remove(index); //does not require shifting relative list values because we choose the least recently used.
+        return least;
+    }
+
+    //used for ARC
+    public void increase() { //increases size of cache by 1, inserts null element
+        lst.add(new Buffer(null));
+        relativelst.add(lst.size()-1);
+        return;
     }
 
     public double hitrate() {
