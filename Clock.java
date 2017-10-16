@@ -131,6 +131,14 @@ public class Clock<T> {
         return lst.size();
     }
 
+    public int totalhits() {
+        return totalhits;
+    }
+
+    public int pagehits() {
+        return pagehits;
+    }
+
 
     public static void main(String[] args) {
         Clock clk = new Clock(10); 

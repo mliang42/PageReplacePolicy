@@ -103,6 +103,14 @@ public class LRU {
         return lst.size();
     }
 
+    public int totalhits() {
+        return totalhits;
+    }
+
+    public int pagehits() {
+        return pagehits;
+    }
+
     @Override
     public String toString() {
         String buffs = "";

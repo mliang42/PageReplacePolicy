@@ -2,62 +2,55 @@ package PageReplace;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class PercentHit {
+public class PercentHit<T> {
+    private LRU lru_cache;
+    private MRU mru_cache;
+    private Clock clk;
+    private RandomR random;
+    private LFU leastf;
+    public PercentHit(Integer size) throws IllegalArgumentException{
+        if (size <= 0) {
+            throw new IllegalArgumentException("Must have positive size."); 
+        }
+        lru_cache = new LRU(size);
+        mru_cache = new MRU(size);
+        clk = new Clock(size);
+        random = new RandomR(size);
+        leastf = new LFU(size);
+           
+    }
+
+    public void insert(T val) {
+        lru_cache.insert(new Buffer(val));
+        mru_cache.insert(new Buffer(val));
+        clk.request(new ClockBuffer(val));
+        random.insert(new Buffer(val));
+        leastf.insert(new Buffer(val));
+    }
+
+    public String hitrate() {
+        return "lru: " + lru_cache.hitrate() + ",mru: " + mru_cache.hitrate() + ", clk: " +  
+            clk.hitrate() + ", random: " + random.hitrate() + ", lfu: " + leastf.hitrate();
+    }
 
 	public static void main(String[] args) {
-		LRU lru_cache = new LRU(100);
-		MRU mru_cache = new MRU(100);
-		Clock clk = new Clock(100);
-        RandomR random = new RandomR(100);
-        LFU leastf = new LFU(100);
-
+        System.out.println("Random insertion");
+		PercentHit testRandom = new PercentHit(100);
 		for(int i = 0; i < 10000; i++) {
 			Integer rand = ThreadLocalRandom.current().nextInt(0, 1000); 
-            
-            //System.out.println(rand);
-            lru_cache.insert(new Buffer(rand));
-            //System.out.println(lru_cache);
-            mru_cache.insert(new Buffer(rand));
-            //System.out.println(mru_cache);
-            clk.request(new ClockBuffer(rand));
-            //System.out.println(clk);
-            random.insert(new Buffer(rand));
-
-            leastf.insert(new Buffer(rand));
-            
+            testRandom.insert(rand);
 		}
-        System.out.println("lru: " + lru_cache.hitrate() + ",mru: " + mru_cache.hitrate()
-             + ",clk: " + clk.hitrate() + ",rand: " + random.hitrate() + ",lfu: " + leastf.hitrate());
-        System.out.println(lru_cache.size());
-        System.out.println(mru_cache.size());
-        System.out.println(clk.size());
-        System.out.println(random.size());
-        System.out.println(leastf.size());
-
-        lru_cache = new LRU(500);
-        mru_cache = new MRU(500);
-        clk = new Clock(500);
-        random = new RandomR(500);
-        leastf = new LFU(500);
-        for(int j = 0; j < 3; j++) { //sequential flooding
+        System.out.println(testRandom.hitrate());
+        
+        System.out.println("Sequential Flooding");
+        PercentHit flooding = new PercentHit(500);
+        for(int j = 0; j < 3; j++) { 
             for(int i = 0; i < 1000; i++) {
-                Integer rand = i; 
-                
-                //System.out.println(rand);
-                lru_cache.insert(new Buffer(rand));
-                //System.out.println(lru_cache);
-                mru_cache.insert(new Buffer(rand));
-                //System.out.println(mru_cache);
-                clk.request(new ClockBuffer(rand));
-                //System.out.println(clk);
-                random.insert(new Buffer(rand));
-
-                leastf.insert(new Buffer(rand));
+                flooding.insert(i);
                
             }//MRU  hits 1000 out of 3000, therefore 33%
         }
-        System.out.println("lru: " + lru_cache.hitrate() + ",mru: " + mru_cache.hitrate()
-             + ",clk: " + clk.hitrate() + ",rand: " + random.hitrate() + ",lfu: " + leastf.hitrate());
+        System.out.println(flooding.hitrate());
 
       
 	}
