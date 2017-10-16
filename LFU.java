@@ -37,7 +37,7 @@ public class LFU extends LRU {
         int minval = 1; //entries with 0 are empty, will prioritize null entries by default
         int index = 0;
         for(int i = 0; i < lst.size(); i++) {
-            if (relativelst.get(i) < minval) {
+            if (relativelst.get(i) < minval) { //finds index that is least frequentially used, breaking ties by sticking with current smallest index
                 index = i;
             }
         }
@@ -46,10 +46,26 @@ public class LFU extends LRU {
 
     public static void main(String[] args) {
         LFU cache = new LFU(10);
-        for(int i = 0; i < 15; i++) {
-            cache.insert(new Buffer(i));
+        for(int i = 0; i < 100; i++) {
+            cache.insert(new Buffer(i % 10));
             System.out.println(cache);
         }
+
+        cache = new LFU(10);
+        for(int i = 0; i < 100; i++) {
+            int rand = ThreadLocalRandom.current().nextInt(-10, 10);
+            cache.insert(new Buffer(rand));
+            System.out.println(cache);
+            System.out.println(cache.hitrate());
+        }
+
+        for(int i = 0; i < 10; i++) {
+            cache.insert(new Buffer(null)); //unintuitive behavior, nulls match each other, but does not increase hit count. 
+            //probably need to rethink null elements
+            System.out.println(cache);
+            System.out.println(cache.hitrate());
+        }
+
     }
 
     

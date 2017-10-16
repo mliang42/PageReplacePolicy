@@ -36,6 +36,9 @@ public class LRU {
         } 
     }
 
+    public LRU() {
+        //throws an error about LFU complaining about some constructor not existing if I don't include this...
+    }
 
 
     public void insert(Buffer buf) {
