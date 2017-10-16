@@ -71,7 +71,7 @@ public class LRU {
         return -1;
     }
 
-    public int findLRUIndex(Buffer buf) { //finds the index i in relativelst which is the least frequentially used
+    public int findLRUIndex(Buffer buf) { //finds the index i in relativelst which is the least recently used
         for(int i = 0; i < relativelst.size(); i++) {
             if (lst.get(i).get_val() == null) {
                 return i;
