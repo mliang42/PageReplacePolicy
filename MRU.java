@@ -3,7 +3,7 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import static org.junit.Assert.*;
 
-public class MRU<T> extends LRU {
+public class MRU extends LRU { //most recently used
 
 	public MRU(List<Buffer> lst) {
 		super(lst);

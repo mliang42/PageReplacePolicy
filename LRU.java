@@ -3,7 +3,7 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-public class LRU {
+public class LRU { //least recently used
     List<Buffer> lst; 
     List<Integer> relativelst;
     int pagehits; 

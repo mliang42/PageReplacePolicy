@@ -2,7 +2,7 @@ package PageReplace;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class RandomR {
+public class RandomR { //random replacement
     private List<Buffer> lst;
     private int pagehits; 
     private int totalhits; 
