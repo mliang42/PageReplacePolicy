@@ -3,10 +3,10 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class RandomR {
-    public List<Buffer> lst;
-    public int pagehits; 
-    public int totalhits; 
-    public int index;
+    private List<Buffer> lst;
+    private int pagehits; 
+    private int totalhits; 
+    private int index;
     public RandomR(Integer size) throws IllegalArgumentException{
         if (size <= 0) {
             throw new IllegalArgumentException("Must initialize cache with positive number of entries.");
@@ -52,6 +52,10 @@ public class RandomR {
             return 0;
         }
         return (double) pagehits / totalhits;
+    }
+
+    public int size() {
+        return lst.size();
     }
 
     @Override

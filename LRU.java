@@ -4,10 +4,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 
 public class LRU {
-    public List<Buffer> lst;
-    public List<Integer> relativelst;
-    public int pagehits; 
-    public int totalhits; 
+    List<Buffer> lst; 
+    List<Integer> relativelst;
+    int pagehits; 
+    int totalhits; 
+    //elements are declared "default" because subclasses need to access these elements.
 
     public LRU(List<Buffer> lst) {
         this.lst = lst;
@@ -98,6 +99,9 @@ public class LRU {
         return (double) pagehits / totalhits;
     }
 
+    public int size() {
+        return lst.size();
+    }
 
     @Override
     public String toString() {

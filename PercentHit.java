@@ -28,11 +28,11 @@ public class PercentHit {
 		}
         System.out.println("lru: " + lru_cache.hitrate() + ",mru: " + mru_cache.hitrate()
              + ",clk: " + clk.hitrate() + ",rand: " + random.hitrate() + ",lfu: " + leastf.hitrate());
-        System.out.println(lru_cache.lst.size());
-        System.out.println(mru_cache.lst.size());
-        System.out.println(clk.lst.size());
-        System.out.println(random.lst.size());
-        System.out.println(leastf.lst.size());
+        System.out.println(lru_cache.size());
+        System.out.println(mru_cache.size());
+        System.out.println(clk.size());
+        System.out.println(random.size());
+        System.out.println(leastf.size());
 
         lru_cache = new LRU(500);
         mru_cache = new MRU(500);
