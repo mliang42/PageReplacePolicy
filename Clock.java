@@ -151,17 +151,25 @@ public class Clock<T> {
         System.out.println(clk);
 
         for(int i = 0; i < 20; i++) {
-            clk.request(new ClockBuffer(i));
+            clk.request(new ClockBuffer(i % 10));
             System.out.println(clk);
+            System.out.println(clk.pagehits());
         } 
 
+        for(int j = 0; j < 20; j++) {
+            clk.request(new ClockBuffer(ThreadLocalRandom.current().nextInt(0, 25)));
+            System.out.println(clk);
+            System.out.println(clk.pagehits());
+        } 
+
+        /*
         clk = new Clock(10);
         for(int i = 0; i < 1000; i++) {
             clk.request(new ClockBuffer(ThreadLocalRandom.current().nextInt(0, 1000)));
             System.out.println(clk);
         }
         System.out.println(clk.hitrate());
-
+        */
         /*
         ArrayList<ClockBuffer> lstofbuffers=  new ArrayList<>();
         for(int i = 0; i < 10; i++) {
