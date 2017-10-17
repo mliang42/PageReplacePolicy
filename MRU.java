@@ -1,5 +1,6 @@
 package PageReplace;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import static org.junit.Assert.*;
 
@@ -15,14 +16,17 @@ public class MRU extends LRU { //most recently used
 
 
 	@Override
-	public void insert(Buffer buf) {
+	public Buffer insert(Buffer buf) {
 		int contains = checkIfContains(buf);
 		int index;
+        Buffer temp;
 		if (contains == -1) {
 			index = findMRUIndex(buf);
+            temp = lst.get(index);
 			lst.set(index, buf);
 		} else {
 			pagehits++;
+            temp = buf;
 			index = contains;
 		}
 
@@ -35,6 +39,7 @@ public class MRU extends LRU { //most recently used
         }
         
         totalhits++;
+        return buf;
 	}
 
 	public int findMRUIndex(Buffer buf) {

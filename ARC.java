@@ -1,5 +1,6 @@
 package PageReplace;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ARC { //adaptive replacement cache
@@ -26,9 +27,18 @@ public class ARC { //adaptive replacement cache
 
     public void insert(Buffer b) {
         //attempts to insert Buffer b into T1
-        int index = T1.checkIfContains(b);
-        if (index == -1) {
-            
+        
+        if (T1.checkIfContains(b) == -1) { //T1 does not contain b
+            int index = T1.findLRUIndex();
+            Buffer buf = T1.insert(b); //returns buffer that was "replaced"
+            if (buf.get_val() != null && !buf.equals(b)) {
+                //if the buffer value isn't null, which means it didn't replace an empty slot or
+                //if the buffer value isn't the input buffer, which means a page hit, 
+                //Proceed to insert buffer into B1.
+                
+            } //else, discard buffer.
+        } else { //T1 contains b, cache hit by removing entry from T1 and move it into T2
+
         }
 
     }

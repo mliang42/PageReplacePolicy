@@ -1,5 +1,6 @@
 package PageReplace;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class LFU extends LRU { //least frequently used
@@ -20,17 +21,21 @@ public class LFU extends LRU { //least frequently used
     }
 
     @Override
-    public void insert(Buffer b) {
+    public Buffer insert(Buffer b) {
         totalhits++;
+        Buffer temp;
         int index = checkIfContains(b);
         if (index == -1) {
             int least = leastUsed();
+            temp = lst.get(least);
             lst.set(least, b);
             relativelst.set(least, 1);// new entry, one access    
         } else {
             pagehits++;
+            temp = b;
             relativelst.set(index, relativelst.get(index) + 1); //incremenet 
         }
+        return temp;
     }
 
     public int leastUsed() {

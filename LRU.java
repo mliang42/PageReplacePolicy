@@ -1,5 +1,6 @@
 package PageReplace;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -41,17 +42,19 @@ public class LRU { //least recently used
         //throws an error about LFU complaining about some constructor not existing if I don't include this...
     }
 
-
-    public void insert(Buffer buf) {
+    public Buffer insert(Buffer buf) { //returns the buffer that was either replaced, or is contained.
+        Buffer temp;
         int contains = checkIfContains(buf);
         int index;
         if (contains == -1) {
             index = findLRUIndex();
+            temp = lst.get(index);
             lst.set(index, buf);
 
         } else {
             pagehits++;
             index = contains;
+            temp = buf;
 
         }
         int previous = relativelst.get(index);
@@ -63,8 +66,8 @@ public class LRU { //least recently used
         }
         
         totalhits++;
-
-    }   
+        return temp;
+    }
 
     public int checkIfContains(Buffer buf) { //returns the index of i in the lst if it contains the buffer
         for(int i = 0; i < lst.size(); i++) {
@@ -92,6 +95,25 @@ public class LRU { //least recently used
 
     }
 
+    public double hitrate() {
+        if (totalhits == 0) {
+            return 0;
+        }
+        return (double) pagehits / totalhits;
+    }
+
+    public int size() {
+        return lst.size();
+    }
+
+    public int totalhits() {
+        return totalhits;
+    }
+
+    public int pagehits() {
+        return pagehits;
+    }
+
     //used for ARC
     public Buffer reduce() throws IllegalArgumentException { 
         //reduces size of cache by 1, drops least recently used element (or null element) and returns the buffer.
@@ -110,25 +132,6 @@ public class LRU { //least recently used
         lst.add(new Buffer(null));
         relativelst.add(lst.size()-1);
         return;
-    }
-
-    public double hitrate() {
-        if (totalhits == 0) {
-            return 0;
-        }
-        return (double) pagehits / totalhits;
-    }
-
-    public int size() {
-        return lst.size();
-    }
-
-    public int totalhits() {
-        return totalhits;
-    }
-
-    public int pagehits() {
-        return pagehits;
     }
 
     @Override
