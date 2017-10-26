@@ -36,6 +36,14 @@ public class ARC { //adaptive replacement cache
                 //if the buffer value isn't the input buffer, which means a page hit, 
                 //Proceed to insert buffer into B1.
                 //If no space in B1, then we trash the value
+                int check = ghostlist1.checkIfContains(b);
+                Buffer buf = T1.insert(b); //do I insert regardless, which affects LRU, or only insert if it doesn't contain it?
+                if (check == -1) { //does not contain buffer b, so we must kick out the least recently use of the ghost list B1
+
+                } else { //it does contain b, so move the page in B1 to T2, update resulting LRU values of B1, 
+                    //try to insert into T2.
+
+                }
                 
             } //else, filled an empty entry
         } else { //T1 contains b, cache hit by removing entry from T1 and move it into T2
