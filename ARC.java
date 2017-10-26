@@ -35,9 +35,11 @@ public class ARC { //adaptive replacement cache
                 //if the buffer value isn't null, which means it didn't replace an empty slot or
                 //if the buffer value isn't the input buffer, which means a page hit, 
                 //Proceed to insert buffer into B1.
+                //If no space in B1, then we trash the value
                 
-            } //else, discard buffer.
+            } //else, filled an empty entry
         } else { //T1 contains b, cache hit by removing entry from T1 and move it into T2
+            //
 
         }
 
