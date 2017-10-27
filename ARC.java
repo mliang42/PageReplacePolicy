@@ -27,7 +27,7 @@ public class ARC { //adaptive replacement cache
 
     public void insert(Buffer b) {
         //attempts to insert Buffer b into T1
-        
+        //TODO: read the papers on ARC cause this is a mess
         if (T1.checkIfContains(b) == -1) { //T1 does not contain b
             int index = T1.findLRUIndex();
             Buffer buf = T1.insert(b); //returns buffer that was "replaced"
@@ -42,8 +42,11 @@ public class ARC { //adaptive replacement cache
                 } else { //it does contain b, so move the page in B1 to T2, update resulting LRU values of B1, 
                     //try to insert into T2.
                     B1.removeLRU();
+                    T1.increase(); //increase T1 accordingly
+                    Buffer last = T2.decrease();//increase T2 accordingly
                     Buffer toB2 = T2.insert(buf);
                     B2.insert(toB2);
+                    B2.insert(last);
                 }
                 
             } //else, filled an empty entry
