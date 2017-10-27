@@ -95,6 +95,15 @@ public class LRU { //least recently used
 
     }
 
+    public Buffer removeLRU() {
+        int index = findLRUIndex();
+        Buffer temp = lst.get(index);
+        lst.remove(index);
+        relativelst.remove(index);
+        return temp;
+
+    }
+
     public double hitrate() {
         if (totalhits == 0) {
             return 0;
