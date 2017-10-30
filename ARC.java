@@ -29,7 +29,7 @@ public class ARC { //adaptive replacement cache
         c = size;
     }
 
-    public void insert(Buffer b) {
+    public void insert(Buffer b) { 
         int index_t1 = T1.checkIfContains(b);
         int index_t2 = T2.checkIfContains(b);
         int index_b1 = B1.checkIfContains(b);
@@ -58,10 +58,10 @@ public class ARC { //adaptive replacement cache
         } else { //misses everything
             if (L1 == c) { //L1 = T1 + B1
                 if (T1.size() < c) {
-                    B1.removeLRU();;
+                    B1.removeLRU();
                     replace(index_b1);
-                } else {
-                    T1.removeLRU();;
+                } else { 
+                    T1.removeLRU();
                 }
             } else if (L1 < c && L1 + L2 >= c) {
                 if (L1 + L2 == 2*c) {//maximum capacity
@@ -71,6 +71,7 @@ public class ARC { //adaptive replacement cache
             }
             T1.insert(b);
         }
+        //TODO: Include hit rates in insert and replace
         
 
     }
@@ -87,24 +88,22 @@ public class ARC { //adaptive replacement cache
         }
     }
 
-
-
-
-
-    public int checkIfGhostContains(Buffer b) { //returns the number corresponding to the ghost lst that contains it, otherwise -1
-        if (B1.checkIfContains(b) != -1) {
-            return 1; //1 means B1 contains it
-        } else if (B2.checkIfContains(b) != -1) {
-            return 2; //2 means B2 contains it
-        } else {
-            return -1; //-1 means neither contains it
-        }
+    public String toString() {
+        String composite = "";
+        composite += B1.toString() + T1.toString() + T2.toString() +  B2.toString() + "\n";
+        return composite; 
     }
 
 
 
+
     public static void main(String[] args) {
-  
+        ARC tiny = new ARC(4);
+        System.out.println(tiny);
+        for(int i = 0; i < 4; i++) { //TODO: hilariously broken atm, replacing MRU element
+            tiny.insert(new Buffer(i));
+            System.out.println(tiny);
+        }
     }
 
     

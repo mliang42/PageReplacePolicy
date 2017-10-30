@@ -137,8 +137,16 @@ public class LRU { //least recently used
         return (double) pagehits / totalhits;
     }
 
-    public int size() {
-        return lst.size();
+    public int size() {//this is a misnomer, it should return the total number of non-null elements
+        //for now, I will make it O(n) with a loop just to see if it works properly.
+        //TODO: create a variable that stores size info and updates whenever the lst is modified
+        int count = 0;
+        for(int i = 0; i < lst.size(); i++) {
+            if (lst.get(i).get_val() != null) {
+                count++;
+            } 
+        }
+        return count;
     }
 
     public int totalhits() {
@@ -178,7 +186,7 @@ public class LRU { //least recently used
             times += "[" + relativelst.get(i) + "]";
         }
 
-        return buffs + "\n" + times + "\n" + "pagehits:" + pagehits + ", totalhits:" + totalhits + "\n";
+        return buffs + "\n" + times + "\n";
 
     }
 
