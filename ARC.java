@@ -47,26 +47,26 @@ public class ARC { //adaptive replacement cache
             }
         } else if (index_b1 != -1) { //ghost hit in B1
             p = Math.min(c, p + Math.max(B2.size() / B1.size(), 1)); //adjustments toward p
-            replace(index_t1, index_t2, index_b1, index_b2); 
+            replace(index_b1); 
             B1.remove(b);
             T2.insert(b);
         } else if (index_b2 != -1) { //ghost hit in B2
             p = Math.max(0, p - Math.max(B1.size() / B2.size(), 1));
-            replace(index_t1, index_t2, index_b1, index_b2);
+            replace(index_b1);
             B2.remove(b);
             T2.insert(b);
         } else { //misses everything
             if (L1 == c) { //L1 = T1 + B1
                 if (T1.size() < c) {
                     B1.removeLRU();;
-                    replace(index_t1, index_t2, index_b1, index_b2);
+                    replace(index_b1);
                 } else {
                     T1.removeLRU();;
                 }
             } else if (L1 < c && L1 + L2 >= c) {
                 if (L1 + L2 == 2*c) {//maximum capacity
                     B2.removeLRU();
-                    replace(index_t1, index_t2, index_b1, index_b2);
+                    replace(index_b1);
                 } 
             }
             T1.insert(b);
@@ -75,7 +75,7 @@ public class ARC { //adaptive replacement cache
 
     }
 
-    public void replace(int index_t1, int index_t2, int index_b1, int index_b2) {
+    public void replace(int index_b1) {
         if (T1.size() >= 1 && ((index_b1 != -1 && T1.size() == p) || T1.size() > p)) {
             Buffer leastRU = T1.get(T1.findLRUIndex());
             T1.remove(leastRU);
