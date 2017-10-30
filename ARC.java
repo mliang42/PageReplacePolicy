@@ -26,34 +26,15 @@ public class ARC { //adaptive replacement cache
     }
 
     public void insert(Buffer b) {
-        //attempts to insert Buffer b into T1
-        //TODO: read the papers on ARC cause this is a mess
-        if (T1.checkIfContains(b) == -1) { //T1 does not contain b
-            int index = T1.findLRUIndex();
-            Buffer buf = T1.insert(b); //returns buffer that was "replaced"
-            if (buf.get_val() != null && !buf.equals(b)) {
-                //if the buffer value isn't null, which means it didn't replace an empty slot or
-                //if the buffer value isn't the input buffer, which means a page hit, 
-                //Proceed to insert buffer into B1.
-                int check = B1.checkIfContains(buf);
-                T1.insert(buf); //updates LRU if it is there
-                if (check == -1) { //does not contain buffer b, so we must insert into B1
-                    
-                } else { //it does contain b, so move the page in B1 to T2, update resulting LRU values of B1, 
-                    //try to insert into T2.
-                    B1.removeLRU();
-                    T1.increase(); //increase T1 accordingly
-                    Buffer last = T2.decrease();//increase T2 accordingly
-                    Buffer toB2 = T2.insert(buf);
-                    B2.insert(toB2);
-                    B2.insert(last);
-                }
-                
-            } //else, filled an empty entry
-        } else { //T1 contains b, cache hit by removing entry from T1 and move it into T2
-            //
-
+        int index_t1 = T1.checkIfContains(b);
+        int index_t2 = T2.checkIfContains(b);
+        //Case 1: b is in T1 or T2
+        if (index_t1 != -1 || index_t2 != -1) {
+            if (index_t1 != -1) { //it was a hit in T1
+                //remove entry from T1, update all LRU values
+            }
         }
+        
 
     }
 

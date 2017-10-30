@@ -95,13 +95,22 @@ public class LRU { //least recently used
 
     }
 
-    public Buffer removeLRU() {
-        int index = findLRUIndex();
-        Buffer temp = lst.get(index);
-        lst.remove(index);
-        relativelst.remove(index);
-        return temp;
-
+    public void remove(Buffer b) {
+        int relativeValue = 0;
+        for(int i = 0; i < lst.size(); i++) {
+            if (lst.get(i).equals(b)) {
+                relativeValue = i;
+                break;
+            }
+        }
+        lst.remove(i);
+        relativelst.remove(i);
+        for(int i = 0; i < relativelst.size(); i++) {
+            if (relativelst.get(i) > relativeValue) {
+                relativelst.set(i, relativelst.get(i)-1); //decrease value of all relative values by 1 once element is removed
+            }
+        }
+        return;
     }
 
     public double hitrate() {
