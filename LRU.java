@@ -95,16 +95,33 @@ public class LRU { //least recently used
 
     }
 
+    public Buffer get(int index) throws IllegalArgumentException {
+        if (index >= lst.size() || index < 0) {
+            throw new IllegalArgumentException("Indices must be valid.");
+        } else {
+            return lst.get(index);
+        }
+    }
+
+    public void removeLRU() {
+        int index = findLRUIndex();
+        remove(lst.get(index));
+    }
+
     public void remove(Buffer b) {
+        int index = 0;
         int relativeValue = 0;
         for(int i = 0; i < lst.size(); i++) {
             if (lst.get(i).equals(b)) {
-                relativeValue = i;
+                index = i;
+                relativeValue = relativelst.get(i);
                 break;
             }
         }
-        lst.remove(i);
-        relativelst.remove(i);
+
+        lst.set(index, new Buffer(null));
+        relativelst.set(index, relativelst.size()); //relativelst.size() is guaranteed to be the largest LRU. 
+                                                    //e.g. I have the list [1, 3, 7] with relativelist [1, 2, 3], LRU is 3
         for(int i = 0; i < relativelst.size(); i++) {
             if (relativelst.get(i) > relativeValue) {
                 relativelst.set(i, relativelst.get(i)-1); //decrease value of all relative values by 1 once element is removed

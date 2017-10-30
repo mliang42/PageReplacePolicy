@@ -34,30 +34,57 @@ public class ARC { //adaptive replacement cache
         int index_t2 = T2.checkIfContains(b);
         int index_b1 = B1.checkIfContains(b);
         int index_b2 = B2.checkIfContains(b);
+        int L1 = T1.size() + B1.size();
+        int L2 = T2.size() + B2.size();
         //Case 1: b is in T1 or T2
-        if (index_t1 != -1 || index_t2 != -1) {
-            if (index_t1 != -1) { //it was a hit in T1
+        if (index_t1 != -1 || index_t2 != -1) { //it was a hit in T1 OR T2
+            if (index_t1 != -1) { //hit from T1
                 //remove entry from T1, update all LRU values
                 T1.remove(b); 
                 T2.insert(b);
+            } else { //hit in T2
+                T2.insert(b);
             }
         } else if (index_b1 != -1) { //ghost hit in B1
-            p = min(c, p + max(B1.size() / B2.size(), 1)); //adjustments toward p
-            replace(); 
+            p = Math.min(c, p + Math.max(B2.size() / B1.size(), 1)); //adjustments toward p
+            replace(index_t1, index_t2, index_b1, index_b2); 
             B1.remove(b);
             T2.insert(b);
         } else if (index_b2 != -1) { //ghost hit in B2
-            p = max(0, p - max(B1.size() / B2, 1));
-            replace();
+            p = Math.max(0, p - Math.max(B1.size() / B2.size(), 1));
+            replace(index_t1, index_t2, index_b1, index_b2);
             B2.remove(b);
             T2.insert(b);
+        } else { //misses everything
+            if (L1 == c) { //L1 = T1 + B1
+                if (T1.size() < c) {
+                    B1.removeLRU();;
+                    replace(index_t1, index_t2, index_b1, index_b2);
+                } else {
+                    T1.removeLRU();;
+                }
+            } else if (L1 < c && L1 + L2 >= c) {
+                if (L1 + L2 == 2*c) {//maximum capacity
+                    B2.removeLRU();
+                    replace(index_t1, index_t2, index_b1, index_b2);
+                } 
+            }
+            T1.insert(b);
         }
         
 
     }
 
-    public void replace() {
-        
+    public void replace(int index_t1, int index_t2, int index_b1, int index_b2) {
+        if (T1.size() >= 1 && ((index_b1 != -1 && T1.size() == p) || T1.size() > p)) {
+            Buffer leastRU = T1.get(T1.findLRUIndex());
+            T1.remove(leastRU);
+            B1.insert(leastRU);
+        } else {
+            Buffer leastRU = T2.get(T2.findLRUIndex());
+            T2.remove(leastRU);
+            B2.insert(leastRU);
+        }
     }
 
 
