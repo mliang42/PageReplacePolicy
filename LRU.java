@@ -103,9 +103,11 @@ public class LRU { //least recently used
         }
     }
 
-    public void removeLRU() {
+    public Buffer removeLRU() {
         int index = findLRUIndex();
+        Buffer least = lst.get(index);
         remove(lst.get(index));
+        return least;
     }
 
     public void remove(Buffer b) {

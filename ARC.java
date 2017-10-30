@@ -56,19 +56,24 @@ public class ARC { //adaptive replacement cache
             B2.remove(b);
             T2.insert(b);
         } else { //misses everything
+            System.out.println("Misses everything case");
             if (L1 == c) { //L1 = T1 + B1
+                System.out.println("L1 == c case");
                 if (T1.size() < c) {
+                    System.out.println("Should be calling here");
                     B1.removeLRU();
                     replace(index_b1);
                 } else { 
                     T1.removeLRU();
                 }
-            } else if (L1 < c && L1 + L2 >= c) {
+            } else if (L1 < c && L1 + L2 >= c) { //formally &&
                 if (L1 + L2 == 2*c) {//maximum capacity
                     B2.removeLRU();
-                    replace(index_b1);
                 } 
+                System.out.println("replacing");
+                replace(index_b1);
             }
+            System.out.println("literally just calling insert because its a cold cache");
             T1.insert(b);
         }
         //TODO: Include hit rates in insert and replace
@@ -78,12 +83,11 @@ public class ARC { //adaptive replacement cache
 
     public void replace(int index_b1) {
         if (T1.size() >= 1 && ((index_b1 != -1 && T1.size() == p) || T1.size() > p)) {
-            Buffer leastRU = T1.get(T1.findLRUIndex());
-            T1.remove(leastRU);
+            System.out.println("replacing first case");
+            Buffer leastRU = T1.removeLRU();
             B1.insert(leastRU);
         } else {
-            Buffer leastRU = T2.get(T2.findLRUIndex());
-            T2.remove(leastRU);
+            Buffer leastRU = T2.removeLRU();
             B2.insert(leastRU);
         }
     }
@@ -99,7 +103,7 @@ public class ARC { //adaptive replacement cache
 
     public static void main(String[] args) {
         ARC tiny = new ARC(4);
-        System.out.println(tiny);
+        //System.out.println(tiny);
         for(int i = 0; i < 4; i++) { //TODO: hilariously broken atm, replacing MRU element
             tiny.insert(new Buffer(i));
             System.out.println(tiny);
